@@ -1,3 +1,9 @@
 {
-    "python.pythonPath": "/Users/lhj/anaconda3/envs/tf/bin/python"
+    "python.pythonPath": "/Users/lhj/anaconda3/envs/tf/bin/python",
+    "cSpell.words": [
+        "arange",
+        "pyplot",
+        "sklearn",
+        "xlrd"
+    ]
 }
