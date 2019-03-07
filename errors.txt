@@ -1,0 +1,7 @@
+1.可能遇到的错误
+用Mac第一次使用python 的第三方包 Matplotlib，报错：Python is not installed as a framework. The Mac OS X backend will not......
+
+解决方法：
+在目录：~/.matplotlib 下创建一个文件: matplotlibrc
+输入：backend:TkAgg
+保存即可。
