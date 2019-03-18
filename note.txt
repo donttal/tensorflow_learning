@@ -176,3 +176,72 @@ https://www.w3cschool.cn/tensorflow_python/tf_keras_backend_cast.html
 #########逻辑回归类别的例子
 # 准确率计算
 accuracy = tf.reduce_mean(tf.cast(tf.equal(prediction, y_target), tf.float32))
+
+####自调整学习率的tf实现
+tf.app.flags.DEFINE_float('initial_learning_rate', 0.001, 'Initial learning rate.')
+
+tf.app.flags.DEFINE_float(
+    'learning_rate_decay_factor', 0.95, 'Learning rate decay factor.')
+
+tf.app.flags.DEFINE_float(
+    'num_epochs_per_decay', 1, 'Number of epoch pass to decay learning rate.')
+
+    # global step
+    global_step = tf.Variable(0, name="global_step", trainable=False)
+
+    # learning rate policy
+    decay_steps = int(num_train_samples / FLAGS.batch_size *
+                      FLAGS.num_epochs_per_decay)
+    learning_rate = tf.train.exponential_decay(FLAGS.initial_learning_rate,
+                                               global_step,
+                                               decay_steps,
+                                               FLAGS.learning_rate_decay_factor,
+                                               staircase=True,
+                                               name='exponential_decay_learning_rate')
+
+####使用checkpoint来保存模型
+
+    with sess.as_default():
+
+        # The saver op.
+        saver = tf.train.Saver()
+        # The prefix for checkpoint files
+        checkpoint_prefix = 'model'
+        ######
+        模型训练过程
+        ######
+        ###########################################################
+        ############ Saving the model checkpoint ##################
+        ###########################################################
+
+        # # The model will be saved when the training is done.
+
+        # Create the path for saving the checkpoints.
+        if not os.path.exists(FLAGS.checkpoint_path):
+            os.makedirs(FLAGS.checkpoint_path)
+
+        # save the model
+        save_path = saver.save(sess, os.path.join(FLAGS.checkpoint_path, checkpoint_prefix))
+        print("Model saved in file: %s" % save_path)
+
+        ############################################################################
+        ########## Run the session for pur evaluation on the test data #############
+        ############################################################################
+
+        # The prefix for checkpoint files
+        checkpoint_prefix = 'model'
+
+        # Restoring the saved weights.重新加载之前的模型权重
+        saver.restore(sess, os.path.join(FLAGS.checkpoint_path, checkpoint_prefix))
+        print("Model restored...")
+
+        # Evaluation of the model
+        test_accuracy = 100 * sess.run(accuracy, feed_dict={
+            image_place: data['test/image'],
+            label_place: data['test/label'],
+            dropout_param: 1.})
+
+        print("Final Test Accuracy is %% %.2f" % test_accuracy)
+
+        参考网址保存模型
+        https://www.jianshu.com/p/b0c789757df6

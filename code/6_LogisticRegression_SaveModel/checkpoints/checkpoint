@@ -1,0 +1,2 @@
+model_checkpoint_path: "/Users/lhj/tensorflow_learning/code/6_LogisticRegression_SaveModel/checkpoints/model"
+all_model_checkpoint_paths: "/Users/lhj/tensorflow_learning/code/6_LogisticRegression_SaveModel/checkpoints/model"

@@ -1,6 +1,7 @@
 {
     "python.pythonPath": "/Users/lhj/anaconda3/envs/tf/bin/python",
     "cSpell.words": [
+        "MNIST",
         "arange",
         "pyplot",
         "sklearn",
